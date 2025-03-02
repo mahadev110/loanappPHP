@@ -110,10 +110,13 @@
         <div class="card mt-5">
             <div class="card-body">
                 <div class="row">
+                    <!-- Search Input and Button -->
                     <div class="col-md-6">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search by Application Number">
-                            <button class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+                            <input type="text" id="searchAppNumber" class="form-control"
+                                placeholder="Search by Application Number">
+                            <button class="btn btn-primary" id="searchButton"><i class="fa fa-search"></i>
+                                Search</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -151,3 +154,49 @@
 </body>
 
 </html>
+
+
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Loan & Collection Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Data from fetch_data.php will be inserted here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery and AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function() {
+    $("#searchButton").click(function() {
+        var appNumber = $("#searchAppNumber").val();
+
+        if (appNumber === "") {
+            alert("Please enter an application number!");
+            return;
+        }
+
+        $.ajax({
+            url: "fetch_data.php",
+            type: "POST",
+            data: { application_number: appNumber },
+            success: function(response) {
+                $("#modalContent").html(response);
+                $("#searchModal").modal("show");
+            },
+            error: function() {
+                alert("Error fetching data.");
+            }
+        });
+    });
+});
+
+</script>

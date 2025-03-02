@@ -29,11 +29,6 @@
                 <form action="save_customer.php" method="POST">
                     <div class="row">
                         <div class="col-md-4">
-                            <label class="form-label">Application No:</label>
-                            <input type="text" name="application_number" class="form-control"
-                                placeholder="Enter Application No." required>
-                        </div>
-                        <div class="col-md-4">
                             <label class="form-label">Customer Name:</label>
                             <input type="text" name="customer_name" class="form-control"
                                 placeholder="Enter Customer Name" required>
@@ -43,32 +38,39 @@
                             <input type="text" name="mobile" class="form-control" placeholder="Enter Mobile Number"
                                 pattern="\d{10}" title="Enter a valid 10-digit mobile number" required>
                         </div>
-
-                    </div>
-
-                    <!-- 2nd Row -->
-                    <div class="row mt-2">
                         <div class="col-md-4">
                             <label class="form-label">Address:</label>
                             <textarea name="address" class="form-control" placeholder="Enter Address" rows="2"
                                 required></textarea>
                         </div>
+                    </div>
+
+                    <!-- 2nd Row -->
+                    <div class="row mt-2">
                         <div class="col-md-4">
                             <label class="form-label">PAN Number:</label>
                             <input type="text" name="pan" class="form-control" placeholder="Enter PAN Number"
-                                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" title="Enter a valid PAN (e.g. ABCDE1234F)">
+                                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" title="Enter a valid PAN (e.g. ABCDE1234F)" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Aadhar Number:</label>
                             <input type="text" name="aadhar" class="form-control" placeholder="Enter Aadhar Number"
-                                pattern="\d{12}" title="Enter a valid 12-digit Aadhar number">
+                                pattern="\d{12}" title="Enter a valid 12-digit Aadhar number" required>
                         </div>
-
+                        <div class="col-md-4">
+                            <label class="form-label">Requested Loan Amount:</label>
+                            <input type="number" name="request_loan_amt" class="form-control"
+                                placeholder="Enter Requested Loan Amount" min="0" required>
+                        </div>
                     </div>
 
                     <!-- 3rd Row -->
                     <div class="row mt-2">
-
+                        <div class="col-md-4">
+                            <label class="form-label">Eligible Loan Amount:</label>
+                            <input type="number" name="eligible_loan_amt" class="form-control"
+                                placeholder="Enter Eligible Loan Amount" min="0" required>
+                        </div>
                         <div class="col-md-4">
                             <label class="form-label">Given Loan Amount:</label>
                             <input type="number" name="given_loan_amt" class="form-control"
@@ -89,34 +91,34 @@
                 </form>
             </div>
         </div>
-        <?php include 'includes/connection.php'; ?>
+<?php include 'includes/connection.php'; ?>
         <!-- list view  -->
+      
 
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Application No.</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">PAN No.</th>
+                    <th scope="col">Aadhar</th>
+                    <th scope="col">Loan Given Amount</th>
+                    <th scope="col">Sanctioned Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $sql = "SELECT id, customer_name, mobile, pan, aadhar, given_loan_amt, loan_date FROM customers ORDER BY id DESC";
+                $result = $conn->query($sql);
+                $count = 1; // Serial number
 
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-hover table-bordered">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Application No.</th>
-                            <th scope="col">Customer Name</th>
-                            <th scope="col">Mobile</th>
-                            <th scope="col">PAN No.</th>
-                            <th scope="col">Aadhar</th>
-                            <th scope="col">Loan Given Amount</th>
-                            <th scope="col">Sanctioned Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sql = "SELECT id, customer_name, mobile, pan, aadhar, given_loan_amt, loan_date FROM customers ORDER BY id DESC";
-                        $result = $conn->query($sql);
-                        $count = 1; // Serial number
-                        
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<tr>
                                 <th scope='row'>{$count}</th>
                                 <td>APP" . str_pad($row['id'], 5, '0', STR_PAD_LEFT) . "</td> 
                                 <td>{$row['customer_name']}</td>
@@ -126,21 +128,21 @@
                                 <td>₹ " . number_format($row['given_loan_amt'], 2) . "</td>
                                 <td>{$row['loan_date']}</td>
                               </tr>";
-                                $count++;
-                            }
-                        } else {
-                            echo "<tr><td colspan='8' class='text-center'>No records found</td></tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                        $count++;
+                    }
+                } else {
+                    echo "<tr><td colspan='8' class='text-center'>No records found</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-        <?php
-        // Close database connection
-        $conn->close();
-        ?>
+<?php
+// Close database connection
+$conn->close();
+?>
 
     </div>
 
