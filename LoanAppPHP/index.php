@@ -74,10 +74,12 @@
                                     <tbody>
                                         <?php
                                         if ($result->num_rows > 0) {
+                                            $count = 1; // Initialize serial number before the loop
                                             while ($row = $result->fetch_assoc()) {
                                                 ?>
                                                 <tr>
-                                                    <th scope="row"><?php echo $row['id']; ?></th>
+                                                    <th scope='row'><?php echo $count++; ?></th>
+                                                    <!-- Increment inside the loop -->
                                                     <td><?php echo strtoupper($row['application_number']); ?></td>
                                                     <td>Rs. <?php echo number_format($row['amount_collected'], 2); ?></td>
                                                     <td><?php echo date("d/m/Y", strtotime($row['collection_date'])); ?></td>
@@ -92,6 +94,7 @@
                                             <?php
                                         }
                                         ?>
+
                                     </tbody>
                                 </table>
 

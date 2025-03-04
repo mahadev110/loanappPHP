@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2025 at 08:47 PM
+-- Generation Time: Mar 04, 2025 at 09:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,10 +29,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
+  `application_number` varchar(50) NOT NULL,
   `customer_name` varchar(255) NOT NULL,
   `mobile` varchar(10) NOT NULL,
   `address` text NOT NULL,
-  `pan` varchar(10) NOT NULL,
+  `pan` varchar(20) DEFAULT NULL,
   `aadhar` varchar(12) NOT NULL,
   `request_loan_amt` decimal(10,2) NOT NULL,
   `eligible_loan_amt` decimal(10,2) NOT NULL,
@@ -45,9 +46,9 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `customer_name`, `mobile`, `address`, `pan`, `aadhar`, `request_loan_amt`, `eligible_loan_amt`, `given_loan_amt`, `loan_date`, `created_at`) VALUES
-(1, 'Sivakumar', '9876543210', 'Lawspet', 'ABCDE1234F', '222111124445', 1000000.00, 500000.00, 500000.00, '2025-02-12', '2025-02-25 18:20:19'),
-(2, 'Murugan', '5467891230', '30,vysial st', 'AQWER1457D', '222111123322', 1100000.00, 600000.00, 600000.00, '2025-02-03', '2025-02-25 18:40:50');
+INSERT INTO `customers` (`id`, `application_number`, `customer_name`, `mobile`, `address`, `pan`, `aadhar`, `request_loan_amt`, `eligible_loan_amt`, `given_loan_amt`, `loan_date`, `created_at`) VALUES
+(8, 'APP01005', 'Murugan', '9940933927', '139, Vysial street', '', '889844576254', 0.00, 0.00, 500000.00, '2025-03-01', '2025-03-04 20:08:44'),
+(21, 'APP00006', 'Sivakumar', '9600830086', '15, MG ROAD', '', '554466223333', 0.00, 0.00, 200000.00, '2025-03-03', '2025-03-04 20:25:39');
 
 -- --------------------------------------------------------
 
@@ -69,9 +70,8 @@ CREATE TABLE `loan_collections` (
 --
 
 INSERT INTO `loan_collections` (`id`, `application_number`, `borrower_name`, `amount_collected`, `collection_date`, `created_at`) VALUES
-(1, 'app00001', 'Sivakumar', 30000.00, '2025-02-27', '2025-02-25 19:22:48'),
-(2, 'app00002', 'Murugan', 4000.00, '2025-02-18', '2025-02-25 19:26:46'),
-(3, 'app00001', 'Sivakumar', 2000.00, '2025-02-28', '2025-02-25 19:30:28');
+(9, 'APP01005', 'Murugan', 30000.00, '2025-03-04', '2025-03-04 20:26:36'),
+(10, 'APP01005', 'Murugan', 4000.00, '2025-02-24', '2025-03-04 20:27:59');
 
 --
 -- Indexes for dumped tables
@@ -83,7 +83,6 @@ INSERT INTO `loan_collections` (`id`, `application_number`, `borrower_name`, `am
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `mobile` (`mobile`),
-  ADD UNIQUE KEY `pan` (`pan`),
   ADD UNIQUE KEY `aadhar` (`aadhar`);
 
 --
@@ -100,13 +99,13 @@ ALTER TABLE `loan_collections`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `loan_collections`
 --
 ALTER TABLE `loan_collections`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

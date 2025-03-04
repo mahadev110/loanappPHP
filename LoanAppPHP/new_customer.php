@@ -110,7 +110,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT id, customer_name, mobile, pan, aadhar, given_loan_amt, loan_date FROM customers ORDER BY id DESC";
+                        $sql = "SELECT application_number, customer_name, mobile, pan, aadhar, given_loan_amt, loan_date FROM customers ORDER BY id DESC";
                         $result = $conn->query($sql);
                         $count = 1; // Serial number
                         
@@ -118,7 +118,7 @@
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>
                                 <th scope='row'>{$count}</th>
-                                <td>APP" . str_pad($row['id'], 5, '0', STR_PAD_LEFT) . "</td> 
+                                <td>{$row['application_number']}</td>
                                 <td>{$row['customer_name']}</td>
                                 <td>{$row['mobile']}</td>
                                 <td>{$row['pan']}</td>

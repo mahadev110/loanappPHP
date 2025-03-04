@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssds", $application_number, $borrower_name, $amount_collected, $collection_date);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Collection data saved successfully!'); window.location.href='new_customer.php';</script>";
+        echo "<script>alert('Collection data saved successfully!'); window.location.href='index.php';</script>";
     } else {
         echo "<script>alert('Database Error: " . $stmt->error . "');</script>";
     }
