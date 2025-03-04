@@ -51,12 +51,14 @@
                     <!-- Right Side: Table -->
                     <div class="col-md-8">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                                <!-- Set fixed height & scroll -->
                                 <?php
-
                                 include 'includes/connection.php';
-                                // Fetch data from loan_collection table
-                                $sql = "SELECT id, application_number, amount_collected, collection_date FROM loan_collections";
+                                // Fetch only the latest 6 records from loan_collections table
+                                $sql = "SELECT id, application_number, amount_collected, collection_date 
+                                FROM loan_collections 
+                                ORDER BY id DESC";
                                 $result = $conn->query($sql);
                                 ?>
 
@@ -89,18 +91,15 @@
                                             </tr>
                                             <?php
                                         }
-                                        // $conn->close();
                                         ?>
                                     </tbody>
                                 </table>
 
-                                <?php
-                                $conn->close(); // Close the connection
-                                ?>
-
+                                <?php $conn->close(); ?> <!-- Close the connection -->
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -125,7 +124,9 @@
                             <a href="new_customer.php"> <button class="btn btn-success me-2"><i class="fa fa-plus"></i>
                                     Create
                                     New Customer</button></a>
-                            <button class="btn btn-warning"><i class="fa fa-star"></i> Date wise view</button>
+                            <a href="date_search.php">
+                                <button class="btn btn-warning"><i class="fa fa-star"></i>
+                                    Date wise view</button></a>
                         </div>
                     </div>
                 </div>
@@ -175,28 +176,28 @@
 <!-- jQuery and AJAX -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-   $(document).ready(function() {
-    $("#searchButton").click(function() {
-        var appNumber = $("#searchAppNumber").val();
+    $(document).ready(function () {
+        $("#searchButton").click(function () {
+            var appNumber = $("#searchAppNumber").val();
 
-        if (appNumber === "") {
-            alert("Please enter an application number!");
-            return;
-        }
-
-        $.ajax({
-            url: "fetch_data.php",
-            type: "POST",
-            data: { application_number: appNumber },
-            success: function(response) {
-                $("#modalContent").html(response);
-                $("#searchModal").modal("show");
-            },
-            error: function() {
-                alert("Error fetching data.");
+            if (appNumber === "") {
+                alert("Please enter an application number!");
+                return;
             }
+
+            $.ajax({
+                url: "fetch_data.php",
+                type: "POST",
+                data: { application_number: appNumber },
+                success: function (response) {
+                    $("#modalContent").html(response);
+                    $("#searchModal").modal("show");
+                },
+                error: function () {
+                    alert("Error fetching data.");
+                }
+            });
         });
     });
-});
 
 </script>
