@@ -117,3 +117,4 @@ COMMIT;
 20.03.2025
 ALTER TABLE `customers` ADD `isdelete` INT(10) NOT NULL AFTER `created_at`;
 ALTER TABLE `loan_collections` ADD `isdelete` INT(10) NOT NULL AFTER `created_at`;
+ALTER TABLE customers DROP INDEX mobile;
