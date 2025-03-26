@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    lc.amount_collected, lc.collection_date 
             FROM customers c
             JOIN loan_collections lc ON c.application_number = lc.application_number
-            WHERE lc.collection_date BETWEEN ? AND ?
+            WHERE lc.collection_date BETWEEN ? AND ? and c.isdelete='0'
             ORDER BY lc.collection_date DESC";
 
     $stmt = $conn->prepare($sql);
